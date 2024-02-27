@@ -1,0 +1,9 @@
+﻿Nome,Quantidade,Componente
+"Uarduino",1," Arduino Uno R3"
+"SbtnOnOff",1," Botão"
+"MmotorE, MmotorD",2," Motor CC"
+"UirD, UirE",2," Sensor de infravermelho"
+"TtransD, TtransE",2," Transistor NPN (BJT)"
+"BatbateriaMotores1",1,"4 baterias, AAA, não Bateria 1,5V"
+"SbtnIrD, SbtnIrE",2," Interruptor deslizante"
+"DISTultrasom",1," Ultrasonic Distance Sensor (4-pin)"
