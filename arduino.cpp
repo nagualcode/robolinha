@@ -20,7 +20,7 @@ bool estadoBotao = false;
 bool estadoBotaoAnterior = false;
 
 // Variável para controlar se os sensores devem ser exibidos no Serial
-bool exibirSensores = true;
+bool exibirSensores = false;
 
 void setup() {
   pinMode(sensorEsquerdo, INPUT); 
@@ -49,9 +49,11 @@ void loop() {
 
   
   if (!estadoBotao) {
+      if (exibirSensores) {
     Serial.println("Aperte o botão para ligar");
-    digitalWrite(transistorEsquerdo, LOW); 
-    digitalWrite(transistorDireito, LOW); 
+      }
+    digitalWrite(transistorEsquerdo, HIGH); 
+    digitalWrite(transistorDireito, HIGH); 
     delay(100); // Pequeno atraso para evitar flutuações no botão
     return; 
   }
@@ -78,8 +80,8 @@ void loop() {
 
   // Limita a velocidade a 0 se um objeto estiver a 5 cm ou menos
   if (distancia <= 10) {
-    digitalWrite(transistorEsquerdo, LOW); 
-    digitalWrite(transistorDireito, LOW);
+    digitalWrite(transistorEsquerdo, HIGH); 
+    digitalWrite(transistorDireito, HIGH);
     Serial.println("Objeto muito próximo, parando o robô");
     delay(100); // Pequeno atraso antes de verificar novamente
     return;
@@ -88,20 +90,20 @@ void loop() {
   // Controla os transistores dos motores com base na leitura dos sensores
   if (leituraEsquerda == HIGH && leituraDireita == LOW) {
     Serial.println("obstáculo à esquerda, vire para a direita ->");
-    digitalWrite(transistorEsquerdo, HIGH); 
-    digitalWrite(transistorDireito, LOW); 
+    digitalWrite(transistorEsquerdo, LOW); 
+    digitalWrite(transistorDireito, HIGH); 
   } else if (leituraEsquerda == LOW && leituraDireita == HIGH) {
     Serial.println("obstáculo à direita, vire para a esquerda <-");
-    digitalWrite(transistorEsquerdo, LOW); 
-    digitalWrite(transistorDireito, HIGH); 
+    digitalWrite(transistorEsquerdo, HIGH); 
+    digitalWrite(transistorDireito, LOW); 
   } else if (leituraEsquerda == HIGH && leituraDireita == HIGH) {
     Serial.println("Obstáculos em ambos os lados, pare <>");
-    digitalWrite(transistorEsquerdo, LOW); 
-    digitalWrite(transistorDireito, LOW); 
-  } else {
-    Serial.println("--");
     digitalWrite(transistorEsquerdo, HIGH); 
     digitalWrite(transistorDireito, HIGH); 
+  } else {
+    Serial.println("siga reto --");
+    digitalWrite(transistorEsquerdo, LOW); 
+    digitalWrite(transistorDireito, LOW); 
   }
   if (exibirSensores) {
     delay(100); // Pequeno atraso entre as iterações do loop para ler no monitor
