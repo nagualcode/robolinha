@@ -3,6 +3,11 @@
 // Aluno: Frederico Flores
 // Março/2024
 
+// Variável para controlar se os sensores devem ser exibidos no Serial
+bool exibirSensores = false;
+///////////////////////////
+
+
 const int sensorEsquerdo = 8; // Pino do sensor IR esquerdo
 const int sensorDireito = 9; // Pino do sensor IR direito
 const int trigPin = 10; // Pino do trigger do sensor de ultrassom
@@ -18,9 +23,6 @@ bool estadoBotao = false;
 
 // Variável para armazenar o estado anterior do botão
 bool estadoBotaoAnterior = false;
-
-// Variável para controlar se os sensores devem ser exibidos no Serial
-bool exibirSensores = false;
 
 void setup() {
   pinMode(sensorEsquerdo, INPUT); 
@@ -52,8 +54,8 @@ void loop() {
       if (exibirSensores) {
     Serial.println("Aperte o botão para ligar");
       }
-    digitalWrite(transistorEsquerdo, HIGH); 
-    digitalWrite(transistorDireito, HIGH); 
+    digitalWrite(transistorEsquerdo, LOW); 
+    digitalWrite(transistorDireito, LOW); 
     delay(100); // Pequeno atraso para evitar flutuações no botão
     return; 
   }
@@ -80,8 +82,8 @@ void loop() {
 
   // Limita a velocidade a 0 se um objeto estiver a 5 cm ou menos
   if (distancia <= 10) {
-    digitalWrite(transistorEsquerdo, HIGH); 
-    digitalWrite(transistorDireito, HIGH);
+    digitalWrite(transistorEsquerdo, LOW); 
+    digitalWrite(transistorDireito, LOW);
     Serial.println("Objeto muito próximo, parando o robô");
     delay(100); // Pequeno atraso antes de verificar novamente
     return;
@@ -98,14 +100,11 @@ void loop() {
     digitalWrite(transistorDireito, LOW); 
   } else if (leituraEsquerda == HIGH && leituraDireita == HIGH) {
     Serial.println("Obstáculos em ambos os lados, pare <>");
-    digitalWrite(transistorEsquerdo, HIGH); 
-    digitalWrite(transistorDireito, HIGH); 
-  } else {
-    Serial.println("siga reto --");
     digitalWrite(transistorEsquerdo, LOW); 
     digitalWrite(transistorDireito, LOW); 
-  }
-  if (exibirSensores) {
-    delay(100); // Pequeno atraso entre as iterações do loop para ler no monitor
+  } else {
+    Serial.println("siga reto --");
+    digitalWrite(transistorEsquerdo, HIGH); 
+    digitalWrite(transistorDireito, HIGH); 
   }
 }
