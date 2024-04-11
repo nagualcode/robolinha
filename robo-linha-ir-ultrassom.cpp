@@ -37,10 +37,9 @@ void loop() {
   estadoBotaoAnterior = botaoPressionado;
 
   // Se o botão estiver desligado, pare o robô
-  if (!estadoBotao) {
+  if (!estadoBotao) {3
     digitalWrite(transistorEsquerdo, LOW);
     digitalWrite(transistorDireito, LOW);
-    return;
   }
 
   // Leitura dos sensores
@@ -56,9 +55,9 @@ void loop() {
   duracao = pulseIn(echoPin, HIGH);
   distancia = (duracao / 2) / 29.1; // Conversão para cm
 
-  // Controle de velocidade com feedback
+  // Movimento
   velocidadeEsquerda = 100;
-  velocidadeDireita = 100; // Velocidade inicial (50% da capacidade)
+  velocidadeDireita = 100; 
   if (distancia < 10) { // Se um objeto estiver próximo, freie o robô
     velocidadeEsquerda = velocidadeDireita = 0;
   } else if (leituraEsquerda == HIGH && leituraDireita == LOW) {
